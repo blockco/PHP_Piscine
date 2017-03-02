@@ -14,6 +14,42 @@ function ft_arrayprint($arg)
 	}
 }
 
+function ssap2_sort($astr, $bstr)
+{
+	$achars = str_split($astr);
+	$bchars = str_split($bstr);
+
+	for ($i = 0; $i < count($achars); $i++)
+	{
+		if ($achars[$i] != $bchars[$i])
+			return (ssap2_compare($achars[$i], $bchars[$i]));
+	}
+}
+
+function ssap2_compare($a, $b)
+{
+	if (is_numeric($a))
+		$a = $a + 128;
+	else if (ctype_alpha($a))
+		$a = strtolower($a);
+	else
+	{
+		$a = ord($a);
+		$a = $a + 256;
+	}
+
+	if (is_numeric($b))
+		$b = $b + 128;
+	else if (ctype_alpha($b))
+		$b = strtolower($b);
+	else
+	{
+		$b = ord($b);
+		$b = $b + 256;
+	}
+	return ($a >= $b);
+
+}
     $i = 1;
     $list = [];
 
@@ -30,23 +66,8 @@ function ft_arrayprint($arg)
 	$i++;
 	}
 
-	$num = [];
-	$alpha = [];
-	$sym = [];
-
-	foreach ($list as $arr)
-	{
-		if (is_numeric($arr))
-			array_push($num, $arr);
-		else if (ctype_alpha($arr))
-			array_push($alpha, $arr);
-		else
-			array_push($sym, $arr);
+	usort($list, "ssap2_sort");
+	foreach ($list as $val) {
+		print ($val."\n");
 	}
-	natsort($alpha);
-	rsort($num);
-	sort($sym);
-	ft_arrayprint($alpha);
-	ft_arrayprint($num);
-	ft_arrayprint($sym);
 ?>
